@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="h4xG5XuTjoTcM8fRui_yj0Dzy2go3ZTa3RfZBGwZmBg" />
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <title>Help & Support - VIN NESIA QR Code Generator Guide</title>
+    <meta name="description" content="Complete help guide for VIN NESIA QR Code Generator. Learn how to create, customize, and download QR codes for various purposes. Tutorials and troubleshooting.">
+    <meta name="keywords" content="qr code help, qr generator tutorial, how to create qr code, qr code guide, vin nesia help, troubleshooting">
+    <meta name="author" content="VIN NESIA">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qr.vinnesia.my.id/Help">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../favicon-v1.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon-v1.png" type="image/png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://qr.vinnesia.my.id/Help">
+    <meta property="og:title" content="Help & Support - VIN NESIA QR Code Generator Guide">
+    <meta property="og:description" content="Complete help guide for VIN NESIA QR Code Generator. Learn how to create, customize, and download QR codes.">
+    <meta property="og:image" content="https://www.vinnesia.my.id/og-qr-generator.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://qr.vinnesia.my.id/Help">
+    <meta name="twitter:title" content="Help & Support - VIN NESIA QR Code Generator Guide">
+    <meta name="twitter:description" content="Complete help guide for VIN NESIA QR Code Generator. Learn how to create, customize, and download QR codes.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6MQ8QLENDT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-6MQ8QLENDT');
+    </script>
+
+    <style>
+        /* CSS Custom Properties - Dark Purple Theme */
+        :root {
+            --primary-bg: #0a0014;
+            --secondary-bg: #1a0a2e;
+            --surface-bg: #16213e;
+            --accent-bg: #0f3460;
+            
+            --primary-purple: #6a0dad;
+            --secondary-purple: #8a2be2;
+            --accent-purple: #9932cc;
+            --light-purple: #ba55d3;
+            
+            --neon-purple: #b19cd9;
+            --neon-cyan: #00f5ff;
+            
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #b0b0b0;
+            --text-accent: #dda0dd;
+            
+            --border-primary: #2d1b69;
+            --border-secondary: #4a148c;
+            --border-accent: rgba(186, 85, 211, 0.3);
+            
+            --shadow-purple: 0 0 20px rgba(106, 13, 173, 0.5);
+            --shadow-glow: 0 0 40px rgba(138, 43, 226, 0.3);
+            
+            --gradient-primary: linear-gradient(135deg, #0a0014 0%, #1a0a2e 50%, #16213e 100%);
+            --gradient-surface: linear-gradient(145deg, #16213e 0%, #0f3460 100%);
+            --gradient-accent: linear-gradient(135deg, #6a0dad 0%, #8a2be2 50%, #9932cc 100%);
+            
+            --animation-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(106, 13, 173, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-bottom: 1px solid var(--border-primary);
+            position: relative;
+        }
+
+        .header-content h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.6));
+            border-radius: 8px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: rgba(15, 52, 96, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-accent);
+        }
+
+        .breadcrumb a {
+            color: var(--text-accent);
+            text-decoration: none;
+            transition: color var(--animation-speed) ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--secondary-purple);
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+            margin: 0 0.5rem;
+        }
+
+        .breadcrumb .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .content {
+            background: var(--gradient-surface);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-primary);
+            box-shadow: var(--shadow-glow);
+            backdrop-filter: blur(10px);
+            margin-bottom: 3rem;
+        }
+
+        .content h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content h2 {
+            color: var(--text-accent);
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-accent);
+        }
+
+        .content h3 {
+            color: var(--secondary-purple);
+            font-size: 1.4rem;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .content h4 {
+            color: var(--light-purple);
+            font-size: 1.2rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .content ul, .content ol {
+            color: var(--text-secondary);
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .content li {
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .content a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: color var(--animation-speed) ease;
+        }
+
+        .content a:hover {
+            color: var(--secondary-purple);
+        }
+
+        .highlight-box {
+            background: rgba(177, 156, 217, 0.1);
+            border: 1px solid var(--border-accent);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ffd700;
+        }
+
+        .tip-box {
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--neon-cyan);
+        }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .step-card {
+            background: rgba(15, 52, 96, 0.5);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-accent);
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--gradient-accent);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .step-card h4 {
+            margin-top: 10px;
+            color: var(--secondary-purple);
+        }
+
+        .troubleshooting-item {
+            background: rgba(15, 52, 96, 0.3);
+            border: 1px solid var(--border-accent);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .troubleshooting-title {
+            background: rgba(15, 52, 96, 0.5);
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: background-color var(--animation-speed) ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .troubleshooting-title:hover {
+            background: rgba(15, 52, 96, 0.7);
+        }
+
+        .troubleshooting-content {
+            padding: 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .troubleshooting-content.show {
+            display: block;
+        }
+
+        .expand-icon {
+            transition: transform var(--animation-speed) ease;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: rgba(15, 52, 96, 0.3);
+            border: 1px solid var(--border-accent);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc h3 {
+            margin-bottom: 1rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: var(--text-accent);
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+            transition: color var(--animation-speed) ease;
+        }
+
+        .toc a:hover {
+            color: var(--secondary-purple);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0a0014 0%, #1a0a2e 100%);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border-primary);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--animation-speed) ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-accent);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 1rem 0.5rem;
+            }
+
+            .content {
+                padding: 2rem;
+            }
+
+            .content h1 {
+                font-size: 2rem;
+            }
+
+            .content h2 {
+                font-size: 1.5rem;
+            }
+
+            .breadcrumb {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .step-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>
+                <img src="../logo.png" alt="VIN NESIA Logo" class="logo-icon">
+                VIN NESIA
+            </h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav class="breadcrumb">
+            <a href="../">Home</a>
+            <span>></span>
+            <span class="current">Help</span>
+        </nav>
+
+        <div class="content">
+            <h1>Help & Support Guide</h1>
+
+            <div class="highlight-box">
+                <p><strong>Welcome to the VIN NESIA QR Code Generator Help Center! This comprehensive guide will help you create, customize, and troubleshoot QR codes using our free online tool. Whether you're a beginner or advanced user, you'll find the information you need here.</strong></p>
+            </div>
+
+            <div class="toc">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#getting-started">Getting Started</a></li>
+                    <li><a href="#qr-types">QR Code Types</a></li>
+                    <li><a href="#customization">Customization Options</a></li>
+                    <li><a href="#downloading">Downloading QR Codes</a></li>
+                    <li><a href="#best-practices">Best Practices</a></li>
+                    <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    <li><a href="#technical-specs">Technical Specifications</a></li>
+                    <li><a href="#contact-support">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <h2 id="getting-started">Getting Started</h2>
+            <p>Creating QR codes with VIN NESIA is simple and straightforward. Follow these basic steps to generate your first QR code:</p>
+
+            <div class="step-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Choose QR Type</h4>
+                    <p>Select the type of QR code you want to create from our 15+ available options.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Enter Your Data</h4>
+                    <p>Fill in the required information in the form fields for your selected QR type.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Customize Style</h4>
+                    <p>Adjust colors, add logos, and modify the visual appearance to match your needs.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Generate & Download</h4>
+                    <p>Click generate to create your QR code, then download it as PNG or SVG format.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <p><strong>Quick Tip:</strong> Our QR codes are generated automatically as you type, so you can see real-time previews of your changes!</p>
+            </div>
+
+            <h2 id="qr-types">QR Code Types & Tutorials</h2>
+            <p>VIN NESIA supports multiple QR code types. Here's how to use each one:</p>
+
+            <h3>Text/URL QR Codes</h3>
+            <p>The most common type of QR code. Perfect for:</p>
+            <ul>
+                <li>Website URLs and landing pages</li>
+                <li>Plain text messages</li>
+                <li>Social media links</li>
+                <li>Product information</li>
+            </ul>
+            <p><strong>How to use:</strong> Simply paste your URL or type your text in the input field. The QR code will update automatically.</p>
+
+            <h3>WiFi QR Codes</h3>
+            <p>Allow users to connect to WiFi networks instantly without typing passwords.</p>
+            <ul>
+                <li><strong>SSID:</strong> Your network name</li>
+                <li><strong>Password:</strong> Network password (if required)</li>
+                <li><strong>Security:</strong> WPA/WPA2, WEP, or None</li>
+                <li><strong>Hidden:</strong> Check if your network is hidden</li>
+            </ul>
+
+            <h3>vCard (Digital Business Cards)</h3>
+            <p>Create digital contact cards that can be saved directly to phone contacts.</p>
+            <p><strong>Required fields:</strong> Full Name<br>
+            <strong>Optional fields:</strong> Organization, Phone, Email, Website, Address</p>
+
+            <h3>Email QR Codes</h3>
+            <p>Pre-fill email recipients, subjects, and messages.</p>
+            <ul>
+                <li><strong>To:</strong> Recipient email address (required)</li>
+                <li><strong>Subject:</strong> Email subject line</li>
+                <li><strong>Message:</strong> Pre-filled email body</li>
+            </ul>
+
+            <h3>SMS QR Codes</h3>
+            <p>Create text messages with pre-filled content.</p>
+            <ul>
+                <li><strong>Phone Number:</strong> Recipient's number (required)</li>
+                <li><strong>Message:</strong> Pre-filled text content</li>
+            </ul>
+
+            <h3>Location QR Codes</h3>
+            <p>Share GPS coordinates or location information.</p>
+            <ul>
+                <li><strong>Latitude:</strong> GPS latitude coordinate</li>
+                <li><strong>Longitude:</strong> GPS longitude coordinate</li>
+                <li><strong>Location Name:</strong> Optional descriptive name</li>
+            </ul>
+
+            <h3>Advanced QR Types</h3>
+            <p>We also support specialized QR codes for:</p>
+            <ul>
+                <li><strong>Events:</strong> Calendar events with dates, times, and locations</li>
+                <li><strong>Cryptocurrency:</strong> Bitcoin, Ethereum, and other crypto payment requests</li>
+                <li><strong>Phone Calls:</strong> Direct dial phone numbers</li>
+                <li><strong>WhatsApp:</strong> Pre-filled WhatsApp messages</li>
+                <li><strong>Social Media:</strong> Links to Facebook, Instagram, Twitter, etc.</li>
+                <li><strong>App Store:</strong> Direct links to mobile apps</li>
+                <li><strong>Multi-Language:</strong> Content in multiple languages</li>
+                <li><strong>File Upload:</strong> Convert files to data URLs</li>
+                <li><strong>Custom HTML:</strong> Create custom HTML content</li>
+            </ul>
+
+            <h2 id="customization">Customization Options</h2>
+            <p>Make your QR codes unique with our extensive customization features:</p>
+
+            <h3>Size Options</h3>
+            <p>Choose from multiple size options:</p>
+            <ul>
+                <li>300x300 pixels (Small)</li>
+                <li>400x400 pixels (Medium - Default)</li>
+                <li>500x500 pixels (Large)</li>
+                <li>600x600 pixels (Extra Large)</li>
+                <li>800x800 pixels (Maximum)</li>
+            </ul>
+
+            <h3>Style Customization</h3>
+            <h4>Dot Styles</h4>
+            <ul>
+                <li><strong>Rounded:</strong> Smooth, circular dots (recommended)</li>
+                <li><strong>Square:</strong> Classic square pixels</li>
+                <li><strong>Dots:</strong> Perfect circles</li>
+                <li><strong>Classy:</strong> Elegant rounded squares</li>
+                <li><strong>Extra Rounded:</strong> Highly rounded for modern look</li>
+            </ul>
+
+            <h4>Corner Styles</h4>
+            <ul>
+                <li><strong>Square:</strong> Traditional square corners</li>
+                <li><strong>Extra Rounded:</strong> Smooth rounded corners</li>
+                <li><strong>Dot:</strong> Circular corner elements</li>
+            </ul>
+
+            <h3>Color Customization</h3>
+            <ul>
+                <li><strong>Foreground Color:</strong> Main QR code color (default: black)</li>
+                <li><strong>Background Color:</strong> Background color (default: white)</li>
+            </ul>
+
+            <div class="tip-box">
+                <p><strong>Color Tips:</strong> Ensure high contrast between foreground and background colors for optimal scanning. Dark foreground on light background works best.</p>
+            </div>
+
+            <h3>Logo Integration</h3>
+            <p>Add your brand logo to QR codes:</p>
+            <ul>
+                <li><strong>Supported formats:</strong> PNG, JPG, SVG</li>
+                <li><strong>Recommended size:</strong> 100x100 pixels</li>
+                <li><strong>Maximum file size:</strong> 2MB</li>
+                <li><strong>Logo size options:</strong> 10%, 15%, 20%, or 25% of QR code</li>
+            </ul>
+
+            <div class="warning-box">
+                <p><strong>Important:</strong> Logos may affect QR code scannability. Test your codes after adding logos to ensure they still work properly.</p>
+            </div>
+
+            <h2 id="downloading">Downloading QR Codes</h2>
+            <p>VIN NESIA offers two high-quality download formats:</p>
+
+            <h3>PNG Format</h3>
+            <ul>
+                <li>Best for: Digital use, websites, presentations</li>
+                <li>Features: High resolution, transparency support</li>
+                <li>File size: Optimized for web use</li>
+            </ul>
+
+            <h3>SVG Format</h3>
+            <ul>
+                <li>Best for: Print materials, scaling, professional design</li>
+                <li>Features: Vector format, infinite scalability</li>
+                <li>File size: Smaller file sizes</li>
+            </ul>
+
+            <div class="tip-box">
+                <p><strong>Format Selection:</strong> Use PNG for digital applications and SVG for print materials or when you need perfect scaling at any size.</p>
+            </div>
+
+            <h2 id="best-practices">Best Practices</h2>
+            <p>Follow these guidelines to create effective QR codes:</p>
+
+            <h3>Design Best Practices</h3>
+            <ul>
+                <li>Maintain high contrast between foreground and background</li>
+                <li>Keep logos under 25% of the total QR code area</li>
+                <li>Test QR codes on different devices before final use</li>
+                <li>Ensure adequate quiet zone (white space) around the code</li>
+                <li>Use appropriate sizes for your intended viewing distance</li>
+            </ul>
+
+            <h3>Content Guidelines</h3>
+            <ul>
+                <li>Keep URLs short and clean</li>
+                <li>Test all links before creating QR codes</li>
+                <li>Use secure HTTPS URLs when possible</li>
+                <li>Include clear calls-to-action near your QR codes</li>
+                <li>Provide alternative access methods for accessibility</li>
+            </ul>
+
+            <h3>Printing Guidelines</h3>
+            <ul>
+                <li>Use SVG format for print materials</li>
+                <li>Minimum recommended print size: 2cm x 2cm</li>
+                <li>Ensure printer resolution is at least 300 DPI</li>
+                <li>Test printed codes with multiple devices</li>
+                <li>Avoid printing on curved or reflective surfaces</li>
+            </ul>
+
+            <h2 id="troubleshooting">Troubleshooting</h2>
+            <p>Common issues and solutions:</p>
+
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-title" onclick="toggleTroubleshooting(this)">
+                    QR Code Won't Generate
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Possible causes:</strong></p>
+                    <ul>
+                        <li>Required fields are empty</li>
+                        <li>Invalid data format (e.g., malformed URL)</li>
+                        <li>File upload issues</li>
+                        <li>Browser compatibility problems</li>
+                    </ul>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Check that all required fields are filled</li>
+                        <li>Verify URL format includes http:// or https://</li>
+                        <li>Try refreshing the page</li>
+                        <li>Clear browser cache and cookies</li>
+                        <li>Try a different browser</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-title" onclick="toggleTroubleshooting(this)">
+                    QR Code Won't Scan Properly
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Possible causes:</strong></p>
+                    <ul>
+                        <li>Low contrast between colors</li>
+                        <li>QR code is too small</li>
+                        <li>Damaged or distorted code</li>
+                        <li>Logo is too large</li>
+                        <li>Poor lighting conditions</li>
+                    </ul>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Use darker foreground on light background</li>
+                        <li>Increase QR code size</li>
+                        <li>Regenerate the code</li>
+                        <li>Reduce logo size to 15% or smaller</li>
+                        <li>Ensure adequate lighting when scanning</li>
+                        <li>Hold device steady and at appropriate distance</li>
+                        <li>Try different QR scanner apps</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-title" onclick="toggleTroubleshooting(this)">
+                    Download Issues
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Possible causes:</strong></p>
+                    <ul>
+                        <li>Browser blocking downloads</li>
+                        <li>Popup blockers interfering</li>
+                        <li>Network connectivity issues</li>
+                        <li>Browser security settings</li>
+                    </ul>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Allow downloads from our site</li>
+                        <li>Disable popup blockers temporarily</li>
+                        <li>Right-click and "Save as" on the QR code</li>
+                        <li>Try a different browser</li>
+                        <li>Check browser download settings</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-title" onclick="toggleTroubleshooting(this)">
+                    Logo Upload Problems
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Possible causes:</strong></p>
+                    <ul>
+                        <li>File size too large (over 2MB)</li>
+                        <li>Unsupported file format</li>
+                        <li>Corrupted image file</li>
+                        <li>Browser limitations</li>
+                    </ul>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Resize image to under 2MB</li>
+                        <li>Use PNG, JPG, or SVG formats only</li>
+                        <li>Try a different image file</li>
+                        <li>Clear browser cache and retry</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-title" onclick="toggleTroubleshooting(this)">
+                    Mobile Device Issues
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Common mobile problems:</strong></p>
+                    <ul>
+                        <li>Small screen display issues</li>
+                        <li>Touch interface problems</li>
+                        <li>File upload limitations</li>
+                        <li>Download restrictions</li>
+                    </ul>
+                    <p><strong>Mobile solutions:</strong></p>
+                    <ul>
+                        <li>Rotate to landscape mode for better view</li>
+                        <li>Use pinch-to-zoom for precision</li>
+                        <li>Upload smaller image files</li>
+                        <li>Use cloud storage for file transfers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2 id="technical-specs">Technical Specifications</h2>
+            
+            <h3>QR Code Standards</h3>
+            <ul>
+                <li><strong>Version:</strong> QR Code 2005 standard</li>
+                <li><strong>Error Correction:</strong> High level (H) - 30% recovery</li>
+                <li><strong>Character Encoding:</strong> UTF-8 support</li>
+                <li><strong>Maximum Capacity:</strong> Varies by content type</li>
+            </ul>
+
+            <h3>File Specifications</h3>
+            <h4>PNG Output</h4>
+            <ul>
+                <li><strong>Format:</strong> PNG-24 with transparency</li>
+                <li><strong>Resolution:</strong> 96 DPI default, scalable</li>
+                <li><strong>Color Depth:</strong> 24-bit true color</li>
+                <li><strong>Compression:</strong> Lossless</li>
+            </ul>
+
+            <h4>SVG Output</h4>
+            <ul>
+                <li><strong>Format:</strong> SVG 1.1 compliant</li>
+                <li><strong>Scalability:</strong> Infinite resolution</li>
+                <li><strong>File Size:</strong> Optimized vector paths</li>
+                <li><strong>Compatibility:</strong> All modern browsers and design software</li>
+            </ul>
+
+            <h3>Browser Compatibility</h3>
+            <ul>
+                <li><strong>Chrome:</strong> Version 60+ (recommended)</li>
+                <li><strong>Firefox:</strong> Version 55+</li>
+                <li><strong>Safari:</strong> Version 11+</li>
+                <li><strong>Edge:</strong> Version 16+</li>
+                <li><strong>Mobile:</strong> iOS Safari 11+, Chrome Mobile 60+</li>
+            </ul>
+
+            <h3>Data Limits</h3>
+            <ul>
+                <li><strong>Text/URL:</strong> Up to 4,296 characters</li>
+                <li><strong>Numbers:</strong> Up to 7,089 digits</li>
+                <li><strong>Binary:</strong> Up to 2,953 bytes</li>
+                <li><strong>File uploads:</strong> 5MB maximum</li>
+                <li><strong>Logo images:</strong> 2MB maximum</li>
+            </ul>
+
+            <h3>Performance</h3>
+            <ul>
+                <li><strong>Generation Speed:</strong> Real-time (under 100ms)</li>
+                <li><strong>Processing:</strong> Client-side when possible</li>
+                <li><strong>Caching:</strong> Browser-based optimization</li>
+                <li><strong>Offline Support:</strong> Limited functionality</li>
+            </ul>
+
+            <h2 id="privacy-security">Privacy & Security</h2>
+            
+            <h3>Data Processing</h3>
+            <ul>
+                <li>QR codes generated locally in browser when possible</li>
+                <li>No permanent storage of user content</li>
+                <li>HTTPS encryption for all data transmission</li>
+                <li>No tracking of QR code content</li>
+            </ul>
+
+            <h3>File Uploads</h3>
+            <ul>
+                <li>Files processed temporarily for QR generation</li>
+                <li>No permanent server storage</li>
+                <li>Automatic deletion after processing</li>
+                <li>Virus scanning on uploaded files</li>
+            </ul>
+
+            <div class="warning-box">
+                <p><strong>Security Note:</strong> Be cautious about including sensitive information in QR codes, as they can be scanned by anyone with access to the code.</p>
+            </div>
+
+            <h2 id="accessibility">Accessibility Features</h2>
+            <p>VIN NESIA is designed to be accessible to all users:</p>
+
+            <h3>Visual Accessibility</h3>
+            <ul>
+                <li>High contrast color options</li>
+                <li>Keyboard navigation support</li>
+                <li>Screen reader compatible labels</li>
+                <li>Scalable interface elements</li>
+            </ul>
+
+            <h3>Motor Accessibility</h3>
+            <ul>
+                <li>Large click targets</li>
+                <li>Touch-friendly mobile interface</li>
+                <li>Keyboard shortcuts available</li>
+                <li>No time-based limitations</li>
+            </ul>
+
+            <h3>Cognitive Accessibility</h3>
+            <ul>
+                <li>Clear, simple instructions</li>
+                <li>Real-time preview feedback</li>
+                <li>Error messages with specific guidance</li>
+                <li>Consistent interface patterns</li>
+            </ul>
+
+            <h2 id="advanced-tips">Advanced Tips & Tricks</h2>
+            
+            <h3>Bulk QR Code Creation</h3>
+            <p>While our interface is designed for individual QR codes, you can streamline bulk creation:</p>
+            <ul>
+                <li>Prepare your content in a spreadsheet</li>
+                <li>Use consistent naming conventions</li>
+                <li>Save custom color schemes for brand consistency</li>
+                <li>Test a sample before creating large batches</li>
+            </ul>
+
+            <h3>Professional Integration</h3>
+            <ul>
+                <li>Use SVG format for professional design workflows</li>
+                <li>Maintain brand consistency with custom colors</li>
+                <li>Create QR code style guides for your organization</li>
+                <li>Test across multiple devices and scanning apps</li>
+            </ul>
+
+            <h3>Analytics & Tracking</h3>
+            <p>While VIN NESIA doesn't provide analytics, you can track QR code usage by:</p>
+            <ul>
+                <li>Using URL shorteners with analytics (bit.ly, tinyurl.com)</li>
+                <li>Creating dedicated landing pages</li>
+                <li>Using UTM parameters in URLs</li>
+                <li>Implementing server-side tracking</li>
+            </ul>
+
+            <h2 id="contact-support">Still Need Help?</h2>
+            <p>If you couldn't find the answer to your question in this guide, we're here to help!</p>
+
+            <div class="highlight-box">
+                <h3>Contact Support</h3>
+                <p><strong>General Support:</strong> <a href="mailto:support@vinnesia.my.id">support@vinnesia.my.id</a></p>
+                <p><strong>Technical Issues:</strong> <a href="mailto:admin@vinnesia.my.id">admin@vinnesia.my.id</a></p>
+                <p><strong>Response Time:</strong> 24-48 hours during business days</p>
+            </div>
+
+            <h3>When Contacting Support, Please Include:</h3>
+            <ul>
+                <li>Your browser type and version</li>
+                <li>Your device type (desktop, mobile, tablet)</li>
+                <li>Steps to reproduce the issue</li>
+                <li>Screenshots if applicable</li>
+                <li>Error messages you're seeing</li>
+            </ul>
+
+            <h3>Other Resources</h3>
+            <ul>
+                <li><a href="../About">Learn more about VIN NESIA</a></li>
+                <li><a href="../Privacy-Policy">Read our Privacy Policy</a></li>
+                <li><a href="../Terms-of-Service">View Terms of Service</a></li>
+                <li><a href="../Contact">Contact Us directly</a></li>
+            </ul>
+
+            <div class="tip-box">
+                <p><strong>Pro Tip:</strong> Bookmark this help page for quick reference, and don't hesitate to reach out if you have suggestions for improving our service!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="../Privacy-Policy">Privacy Policy</a></li>
+                <li><a href="../Terms-of-Service">Terms of Service</a></li>
+                <li><a href="../About">About</a></li>
+                <li><a href="../Contact">Contact</a></li>
+                <li><a href="../Help">Help</a></li>
+            </ul>
+            <div class="copyright">
+                © 2025 VIN NESIA. All rights reserved. Advanced QR Code Generator.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTroubleshooting(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            const isVisible = content.classList.contains('show');
+            
+            // Close all troubleshooting items
+            document.querySelectorAll('.troubleshooting-content').forEach(item => {
+                item.classList.remove('show');
+            });
+            document.querySelectorAll('.expand-icon').forEach(icon => {
+                icon.classList.remove('rotated');
+            });
+            
+            // Toggle the clicked item
+            if (!isVisible) {
+                content.classList.add('show');
+                icon.classList.add('rotated');
+            }
+        }
+
+        // Smooth scrolling for table of contents links
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocLinks = document.querySelectorAll('.toc a[href^="#"]');
+            
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Google Analytics event tracking for help interactions
+        function trackHelpInteraction(action, section) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'help_interaction', {
+                    event_category: 'Help',
+                    event_label: section,
+                    action: action
+                });
+            }
+        }
+
+        // Track troubleshooting section opens
+        document.querySelectorAll('.troubleshooting-title').forEach(title => {
+            title.addEventListener('click', function() {
+                const sectionName = this.textContent.trim();
+                trackHelpInteraction('troubleshooting_open', sectionName);
+            });
+        });
+    </script>
+</body>
+</html>
