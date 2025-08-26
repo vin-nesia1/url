@@ -995,15 +995,60 @@
     <!-- Progress Bar -->
     <div class="progress-bar" id="progressBar"></div>
 
-    <header>
-        <div class="header-content">
-            <h1>
-                <span class="logo-icon">📱</span>
-                VIN NESIA
-            </h1>
-            <p>Advanced QR Code Generator</p>
-        </div>
-    </header>
+    <header style="
+    text-align: center;
+    padding: 3rem 1rem;
+    border-bottom: 1px solid #2d1b69;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0014 0%, #1a0a2e 50%, #16213e 100%);
+    color: #ffffff;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+">
+    <div class="header-content" style="
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+    ">
+        <h1 style="
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #6a0dad 0%, #8a2be2 50%, #9932cc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(0.5rem, 2vw, 1rem);
+            flex-wrap: wrap;
+            line-height: 1.2;
+        ">
+            <img src="logo.png" alt="VIN NESIA Logo" class="logo-icon" style="
+                width: clamp(40px, 8vw, 80px);
+                height: clamp(40px, 8vw, 80px);
+                object-fit: contain;
+                filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.6));
+                border-radius: 8px;
+            ">
+            VIN NESIA
+        </h1>
+        <p style="
+            color: #dda0dd;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-weight: 300;
+            opacity: 0.9;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(221, 160, 221, 0.3);
+        ">Advanced QR Code Generator</p>
+    </div>
+</header>
 
     <main class="container">
         <div class="controls">
