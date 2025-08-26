@@ -696,19 +696,158 @@
             line-height: 1.6;
         }
 
-        /* Footer */
-        footer {
-            background: var(--color-surface);
-            border-top: 1px solid var(--color-border);
-            padding: 2rem 0;
-            margin-top: 4rem;
-            text-align: center;
-        }
+        /* Footer Styles */
+footer {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: 3rem 0 2rem;
+    margin-top: 4rem;
+    position: relative;
+}
 
-        footer p {
-            color: var(--color-text-muted);
-            margin: 0;
-        }
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gradient-primary);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.footer-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.3));
+}
+
+.footer-brand-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+}
+
+.footer-link:hover,
+.footer-link:focus {
+    color: var(--color-primary);
+    background: rgba(139, 92, 246, 0.1);
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    right: 1rem;
+    height: 2px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.footer-link:hover::after {
+    transform: scaleX(1);
+}
+
+.footer-divider {
+    width: 100%;
+    max-width: 300px;
+    height: 1px;
+    background: var(--color-border);
+    margin: 1rem 0;
+}
+
+.footer-copyright {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.footer-heart {
+    color: var(--color-error);
+    display: inline-block;
+    animation: heartbeat 2s infinite;
+}
+
+@keyframes heartbeat {
+    0%, 50%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.1); }
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    footer {
+        padding: 2rem 0 1.5rem;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .footer-link {
+        padding: 0.75rem 1rem;
+    }
+    
+    .footer-brand {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .footer-brand-name {
+        font-size: 1.25rem;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .footer-heart {
+        animation: none;
+    }
+    
+    .footer-link::after {
+        transition: none;
+    }
+}
 
         /* Responsive Design */
         @media (max-width: 1024px) {
@@ -1214,11 +1353,31 @@
     </main>
 
     <!-- Footer -->
-    <footer role="contentinfo">
-        <div class="container">
-            <p>&copy; 2024 VIN NESIA. All rights reserved. | Made with ❤️ in Indonesia</p>
+<footer role="contentinfo">
+    <div class="container">
+        <div class="footer-content">
+            <!-- Brand Section -->
+            <div class="footer-brand">
+                <img src="logo.png" alt="VIN NESIA Logo" class="footer-logo" width="40" height="40" loading="lazy" onerror="this.style.display='none'">
+                <span class="footer-brand-name">VIN NESIA</span>
+            </div>
+            
+            <!-- Footer Links -->
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="/privacy-policy" class="footer-link">Privacy Policy</a>
+                <a href="/terms-of-service" class="footer-link">Terms Of Service</a>
+            </nav>
+            
+            <!-- Divider -->
+            <div class="footer-divider" role="separator"></div>
+            
+            <!-- Copyright -->
+            <p class="footer-copyright">
+                &copy; 2024 VIN NESIA. All rights reserved. | Made with <span class="footer-heart">❤️</span> in Indonesia
+            </p>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <!-- Fullscreen Modal -->
     <div class="modal" id="fullscreen-modal" role="dialog" aria-hidden="true" aria-labelledby="fullscreen-title">
