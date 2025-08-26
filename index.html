@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -647,6 +648,12 @@
             box-shadow: var(--shadow-neon);
         }
 
+        .btn-generate:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         /* Footer */
         footer {
             background: linear-gradient(135deg, #0a0014 0%, #1a0a2e 100%);
@@ -715,6 +722,59 @@
             background: var(--gradient-neon);
             transition: width 0.3s ease;
             z-index: 9998;
+        }
+
+        /* Error Messages */
+        .error-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00ff44, #00cc22);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 255, 68, 0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .info-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--secondary-purple));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        /* Loading state for generate button */
+        .btn-generate.loading::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
         }
 
         /* Responsive Design */
@@ -866,6 +926,28 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
             }
         }
 
@@ -1244,7 +1326,7 @@
                 </select>
             </div>
 
-            <button class="btn btn-generate" onclick="generateQRCode()" aria-label="Generate QR Code">
+            <button class="btn btn-generate" onclick="generateQRCode()" aria-label="Generate QR Code" id="generateBtn">
                 🎯 Generate QR Code
             </button>
         </div>
@@ -1285,6 +1367,7 @@
         let qrCode = null;
         let debounceTimer = null;
         let isGenerating = false;
+        let pendingFileData = null;
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
@@ -1352,24 +1435,27 @@
             });
         }
 
-        // Add auto-generation listeners with debouncing
+        // Add auto-generation listeners with improved debouncing
         function addAutoGenerationListeners() {
             const inputs = document.querySelectorAll('input, textarea, select');
             
             inputs.forEach(input => {
-                input.addEventListener('input', debounceGenerate);
-                input.addEventListener('change', debounceGenerate);
+                // Use different debounce times for different input types
+                const debounceTime = input.type === 'file' ? 100 : 750;
+                
+                input.addEventListener('input', () => debounceGenerate(debounceTime));
+                input.addEventListener('change', () => debounceGenerate(debounceTime));
             });
         }
 
-        // Debounced generation for performance
-        function debounceGenerate() {
+        // Improved debounced generation with variable timing
+        function debounceGenerate(delay = 750) {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
                 if (!isGenerating) {
                     generateQRCode();
                 }
-            }, 500);
+            }, delay);
         }
 
         // Tab switching with smooth animation
@@ -1391,31 +1477,46 @@
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
             
-            // Generate QR code for new tab
-            debounceGenerate();
+            // Clear pending file data when switching tabs
+            if (tabName !== 'file') {
+                pendingFileData = null;
+            }
+            
+            // Generate QR code for new tab with reduced delay
+            debounceGenerate(300);
             
             // Update progress
-            updateProgressBar();
+            updateProgressBar(10);
         }
 
-        // Generate QR Code with data validation
-        function generateQRCode() {
+        // Enhanced Generate QR Code with comprehensive error handling
+        async function generateQRCode() {
             if (isGenerating) return;
             
-            isGenerating = true;
-            updateProgressBar(30);
+            const generateBtn = document.getElementById('generateBtn');
             
             try {
+                isGenerating = true;
+                generateBtn.classList.add('loading');
+                generateBtn.disabled = true;
+                updateProgressBar(20);
+                
                 const activeTab = document.querySelector('.tab-content.active').id;
-                const qrData = getQRData(activeTab);
+                let qrData;
+                
+                // Handle file tab specially due to async nature
+                if (activeTab === 'file') {
+                    qrData = await getQRDataAsync(activeTab);
+                } else {
+                    qrData = getQRData(activeTab);
+                }
                 
                 if (!qrData) {
-                    console.warn('No data to generate QR code');
-                    isGenerating = false;
+                    showInfo('Please fill in required fields to generate QR code');
                     return;
                 }
                 
-                updateProgressBar(60);
+                updateProgressBar(50);
                 
                 // Get styling options
                 const fgColor = document.getElementById('qr-color').value || "#000000";
@@ -1426,220 +1527,330 @@
                 const logoFile = document.getElementById('logo-upload').files[0];
                 const logoSize = parseFloat(document.getElementById('logo-size').value) || 0.15;
                 
+                updateProgressBar(70);
+                
                 // Handle logo upload
                 let logoDataUrl = "";
                 if (logoFile) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        logoDataUrl = e.target.result;
-                        updateQRWithLogo(qrData, fgColor, bgColor, dotStyle, cornerStyle, cornerDotStyle, logoDataUrl, logoSize);
-                    };
-                    reader.readAsDataURL(logoFile);
-                    return; // Exit early, will continue in reader.onload
+                    try {
+                        logoDataUrl = await readFileAsDataURL(logoFile);
+                    } catch (error) {
+                        showError('Failed to process logo file');
+                        console.error('Logo processing error:', error);
+                    }
                 }
                 
-                updateQRWithLogo(qrData, fgColor, bgColor, dotStyle, cornerStyle, cornerDotStyle, logoDataUrl, logoSize);
+                updateProgressBar(85);
                 
-                updateProgressBar(90);
-                
-                // Clear previous QR code
-                const qrContainer = document.getElementById("qr-code");
-                qrContainer.innerHTML = '';
-                
-                // Append new QR code
-                qrCode.append(qrContainer);
-                
-                // Force proper sizing
-                setTimeout(() => {
-                    const qrElement = qrContainer.querySelector('canvas');
-                    if (qrElement) {
-                        qrElement.style.width = '310px';
-                        qrElement.style.height = '310px';
-                        qrElement.style.display = 'block';
-                        qrElement.style.border = 'none';
-                        qrElement.style.borderRadius = '8px';
-                    }
-                }, 100);
+                // Update QR code with all options
+                await updateQRCodeDisplay(qrData, fgColor, bgColor, dotStyle, cornerStyle, cornerDotStyle, logoDataUrl, logoSize);
                 
                 updateProgressBar(100);
-                
-                // Trigger animation
-                const container = document.getElementById('qr-code-container');
-                container.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    container.style.transform = 'scale(1)';
-                }, 100);
+                showSuccess('QR Code generated successfully!');
                 
             } catch (error) {
                 console.error('Error generating QR code:', error);
-                showError('Failed to generate QR code. Please check your input.');
+                showError('Failed to generate QR code. Please check your input and try again.');
             } finally {
                 isGenerating = false;
-                setTimeout(() => updateProgressBar(0), 500);
+                generateBtn.classList.remove('loading');
+                generateBtn.disabled = false;
+                setTimeout(() => updateProgressBar(0), 1000);
             }
         }
 
-        // Get QR data based on active tab
-        function getQRData(tabName) {
-            switch(tabName) {
-                case 'text':
-                    return document.getElementById('text-input').value || 'https://qr.vinnesia.my.id';
-                
-                case 'wifi':
-                    const ssid = document.getElementById('wifi-ssid').value;
-                    const password = document.getElementById('wifi-password').value;
-                    const security = document.getElementById('wifi-security').value;
-                    const hidden = document.getElementById('wifi-hidden').checked;
+        // Enhanced QR data retrieval with async support
+        async function getQRDataAsync(tabName) {
+            if (tabName === 'file') {
+                const fileInput = document.getElementById('file-input');
+                if (fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
                     
-                    if (!ssid) return null;
-                    
-                    return `WIFI:T:${security};S:${ssid};P:${password};H:${hidden ? 'true' : 'false'};;`;
-                
-                case 'vcard':
-                    const name = document.getElementById('vcard-name').value;
-                    const org = document.getElementById('vcard-org').value;
-                    const phone = document.getElementById('vcard-phone').value;
-                    const email = document.getElementById('vcard-email').value;
-                    const url = document.getElementById('vcard-url').value;
-                    const address = document.getElementById('vcard-address').value;
-                    
-                    if (!name) return null;
-                    
-                    return `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nORG:${org}\nTEL:${phone}\nEMAIL:${email}\nURL:${url}\nADR:${address}\nEND:VCARD`;
-                
-                case 'email':
-                    const emailTo = document.getElementById('email-to').value;
-                    const subject = document.getElementById('email-subject').value;
-                    const body = document.getElementById('email-body').value;
-                    
-                    if (!emailTo) return null;
-                    
-                    return `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                
-                case 'sms':
-                    const smsNumber = document.getElementById('sms-number').value;
-                    const smsMessage = document.getElementById('sms-message').value;
-                    
-                    if (!smsNumber) return null;
-                    
-                    return `sms:${smsNumber}?body=${encodeURIComponent(smsMessage)}`;
-                
-                case 'geo':
-                    const lat = document.getElementById('geo-lat').value;
-                    const lng = document.getElementById('geo-lng').value;
-                    const query = document.getElementById('geo-query').value;
-                    
-                    if (!lat || !lng) return null;
-                    
-                    return query ? `geo:${lat},${lng}?q=${encodeURIComponent(query)}` : `geo:${lat},${lng}`;
-                
-                case 'file':
-                    const fileInput = document.getElementById('file-input');
-                    if (fileInput.files && fileInput.files[0]) {
-                        return new Promise((resolve) => {
-                            const reader = new FileReader();
-                            reader.onload = (e) => resolve(e.target.result);
-                            reader.readAsDataURL(fileInput.files[0]);
-                        });
+                    // Validate file
+                    if (!validateFile(file)) {
+                        return null;
                     }
-                    return null;
-                
-                case 'event':
-                    const title = document.getElementById('event-title').value;
-                    const startDate = document.getElementById('event-start').value;
-                    const endDate = document.getElementById('event-end').value;
-                    const location = document.getElementById('event-location').value;
-                    const description = document.getElementById('event-description').value;
                     
-                    if (!title || !startDate) return null;
+                    try {
+                        // Use cached data if available
+                        if (pendingFileData) {
+                            return pendingFileData;
+                        }
+                        
+                        const dataUrl = await readFileAsDataURL(file);
+                        pendingFileData = dataUrl; // Cache the result
+                        return dataUrl;
+                    } catch (error) {
+                        showError('Failed to process file');
+                        return null;
+                    }
+                }
+                return null;
+            }
+            
+            return getQRData(tabName);
+        }
+
+        // Synchronous QR data retrieval (fixed Promise issue)
+        function getQRData(tabName) {
+            try {
+                switch(tabName) {
+                    case 'text':
+                        return document.getElementById('text-input').value || 'https://qr.vinnesia.my.id';
                     
-                    const formatDate = (dateStr) => {
-                        return new Date(dateStr).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-                    };
+                    case 'wifi':
+                        const ssid = document.getElementById('wifi-ssid').value;
+                        const password = document.getElementById('wifi-password').value;
+                        const security = document.getElementById('wifi-security').value;
+                        const hidden = document.getElementById('wifi-hidden').checked;
+                        
+                        if (!ssid) return null;
+                        
+                        return `WIFI:T:${security};S:${ssid};P:${password};H:${hidden ? 'true' : 'false'};;`;
                     
-                    const startFormatted = formatDate(startDate);
-                    const endFormatted = endDate ? formatDate(endDate) : startFormatted;
+                    case 'vcard':
+                        const name = document.getElementById('vcard-name').value;
+                        const org = document.getElementById('vcard-org').value;
+                        const phone = document.getElementById('vcard-phone').value;
+                        const email = document.getElementById('vcard-email').value;
+                        const url = document.getElementById('vcard-url').value;
+                        const address = document.getElementById('vcard-address').value;
+                        
+                        if (!name) return null;
+                        
+                        return `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nORG:${org}\nTEL:${phone}\nEMAIL:${email}\nURL:${url}\nADR:${address}\nEND:VCARD`;
                     
-                    return `BEGIN:VEVENT\nSUMMARY:${title}\nDTSTART:${startFormatted}\nDTEND:${endFormatted}\nLOCATION:${location}\nDESCRIPTION:${description}\nEND:VEVENT`;
-                
-                case 'crypto':
-                    const cryptoType = document.getElementById('crypto-type').value;
-                    const cryptoAddress = document.getElementById('crypto-address').value;
-                    const amount = document.getElementById('crypto-amount').value;
-                    const message = document.getElementById('crypto-message').value;
+                    case 'email':
+                        const emailTo = document.getElementById('email-to').value;
+                        const subject = document.getElementById('email-subject').value;
+                        const body = document.getElementById('email-body').value;
+                        
+                        if (!emailTo) return null;
+                        
+                        return `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                     
-                    if (!cryptoAddress) return null;
+                    case 'sms':
+                        const smsNumber = document.getElementById('sms-number').value;
+                        const smsMessage = document.getElementById('sms-message').value;
+                        
+                        if (!smsNumber) return null;
+                        
+                        return `sms:${smsNumber}?body=${encodeURIComponent(smsMessage)}`;
                     
-                    let uri = `${cryptoType}:${cryptoAddress}`;
-                    const params = [];
-                    if (amount) params.push(`amount=${amount}`);
-                    if (message) params.push(`message=${encodeURIComponent(message)}`);
-                    if (params.length > 0) uri += `?${params.join('&')}`;
+                    case 'geo':
+                        const lat = document.getElementById('geo-lat').value;
+                        const lng = document.getElementById('geo-lng').value;
+                        const query = document.getElementById('geo-query').value;
+                        
+                        if (!lat || !lng) return null;
+                        
+                        return query ? `geo:${lat},${lng}?q=${encodeURIComponent(query)}` : `geo:${lat},${lng}`;
                     
-                    return uri;
-                
-                case 'phone':
-                    const phoneNumber = document.getElementById('phone-number').value;
-                    return phoneNumber ? `tel:${phoneNumber}` : null;
-                
-                case 'whatsapp':
-                    const waNumber = document.getElementById('whatsapp-number').value;
-                    const waMessage = document.getElementById('whatsapp-message').value;
+                    case 'event':
+                        const title = document.getElementById('event-title').value;
+                        const startDate = document.getElementById('event-start').value;
+                        const endDate = document.getElementById('event-end').value;
+                        const location = document.getElementById('event-location').value;
+                        const description = document.getElementById('event-description').value;
+                        
+                        if (!title || !startDate) return null;
+                        
+                        const formatDate = (dateStr) => {
+                            return new Date(dateStr).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+                        };
+                        
+                        const startFormatted = formatDate(startDate);
+                        const endFormatted = endDate ? formatDate(endDate) : startFormatted;
+                        
+                        return `BEGIN:VEVENT\nSUMMARY:${title}\nDTSTART:${startFormatted}\nDTEND:${endFormatted}\nLOCATION:${location}\nDESCRIPTION:${description}\nEND:VEVENT`;
                     
-                    if (!waNumber) return null;
+                    case 'crypto':
+                        const cryptoType = document.getElementById('crypto-type').value;
+                        const cryptoAddress = document.getElementById('crypto-address').value;
+                        const amount = document.getElementById('crypto-amount').value;
+                        const message = document.getElementById('crypto-message').value;
+                        
+                        if (!cryptoAddress) return null;
+                        
+                        let uri = `${cryptoType}:${cryptoAddress}`;
+                        const params = [];
+                        if (amount) params.push(`amount=${amount}`);
+                        if (message) params.push(`message=${encodeURIComponent(message)}`);
+                        if (params.length > 0) uri += `?${params.join('&')}`;
+                        
+                        return uri;
                     
-                    const cleanNumber = waNumber.replace(/[^\d]/g, '');
-                    return `https://wa.me/${cleanNumber}${waMessage ? `?text=${encodeURIComponent(waMessage)}` : ''}`;
-                
-                case 'social':
-                    const platform = document.getElementById('social-platform').value;
-                    const username = document.getElementById('social-username').value;
+                    case 'phone':
+                        const phoneNumber = document.getElementById('phone-number').value;
+                        return phoneNumber ? `tel:${phoneNumber}` : null;
                     
-                    if (!username) return null;
+                    case 'whatsapp':
+                        const waNumber = document.getElementById('whatsapp-number').value;
+                        const waMessage = document.getElementById('whatsapp-message').value;
+                        
+                        if (!waNumber) return null;
+                        
+                        const cleanNumber = waNumber.replace(/[^\d]/g, '');
+                        return `https://wa.me/${cleanNumber}${waMessage ? `?text=${encodeURIComponent(waMessage)}` : ''}`;
                     
-                    const socialUrls = {
-                        facebook: 'https://facebook.com/',
-                        twitter: 'https://twitter.com/',
-                        instagram: 'https://instagram.com/',
-                        linkedin: 'https://linkedin.com/in/',
-                        youtube: 'https://youtube.com/c/',
-                        tiktok: 'https://tiktok.com/@'
-                    };
+                    case 'social':
+                        const platform = document.getElementById('social-platform').value;
+                        const username = document.getElementById('social-username').value;
+                        
+                        if (!username) return null;
+                        
+                        const socialUrls = {
+                            facebook: 'https://facebook.com/',
+                            twitter: 'https://twitter.com/',
+                            instagram: 'https://instagram.com/',
+                            linkedin: 'https://linkedin.com/in/',
+                            youtube: 'https://youtube.com/c/',
+                            tiktok: 'https://tiktok.com/@'
+                        };
+                        
+                        return username.startsWith('http') ? username : socialUrls[platform] + username;
                     
-                    return username.startsWith('http') ? username : socialUrls[platform] + username;
-                
-                case 'appstore':
-                    const appPlatform = document.getElementById('app-platform').value;
-                    const appId = document.getElementById('app-id').value;
+                    case 'appstore':
+                        const appPlatform = document.getElementById('app-platform').value;
+                        const appId = document.getElementById('app-id').value;
+                        
+                        if (!appId) return null;
+                        
+                        return appPlatform === 'android' 
+                            ? `https://play.google.com/store/apps/details?id=${appId}`
+                            : `https://apps.apple.com/app/id${appId}`;
                     
-                    if (!appId) return null;
+                    case 'multilang':
+                        const enText = document.getElementById('multilang-en').value;
+                        const idText = document.getElementById('multilang-id').value;
+                        const otherText = document.getElementById('multilang-other').value;
+                        
+                        const multiContent = [];
+                        if (enText) multiContent.push(`EN: ${enText}`);
+                        if (idText) multiContent.push(`ID: ${idText}`);
+                        if (otherText) multiContent.push(`OTHER: ${otherText}`);
+                        
+                        return multiContent.length > 0 ? multiContent.join('\n\n') : null;
                     
-                    return appPlatform === 'android' 
-                        ? `https://play.google.com/store/apps/details?id=${appId}`
-                        : `https://apps.apple.com/app/id${appId}`;
-                
-                case 'multilang':
-                    const enText = document.getElementById('multilang-en').value;
-                    const idText = document.getElementById('multilang-id').value;
-                    const otherText = document.getElementById('multilang-other').value;
+                    case 'htmlcustom':
+                        const htmlContent = document.getElementById('html-content').value;
+                        return htmlContent ? `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}` : null;
                     
-                    const multiContent = [];
-                    if (enText) multiContent.push(`EN: ${enText}`);
-                    if (idText) multiContent.push(`ID: ${idText}`);
-                    if (otherText) multiContent.push(`OTHER: ${otherText}`);
-                    
-                    return multiContent.length > 0 ? multiContent.join('\n\n') : null;
-                
-                case 'htmlcustom':
-                    const htmlContent = document.getElementById('html-content').value;
-                    return htmlContent ? `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}` : null;
-                
-                default:
-                    return 'https://qr.vinnesia.my.id';
+                    default:
+                        return 'https://qr.vinnesia.my.id';
+                }
+            } catch (error) {
+                console.error('Error getting QR data:', error);
+                showError('Error processing form data');
+                return null;
             }
         }
 
-        // Download QR Code
+        // Unified QR code display update function
+        async function updateQRCodeDisplay(qrData, fgColor, bgColor, dotStyle, cornerStyle, cornerDotStyle, logoDataUrl, logoSize) {
+            return new Promise((resolve, reject) => {
+                try {
+                    qrCode.update({
+                        width: 310,
+                        height: 310,
+                        data: qrData,
+                        type: "canvas",
+                        image: logoDataUrl,
+                        dotsOptions: {
+                            color: fgColor,
+                            type: dotStyle
+                        },
+                        backgroundOptions: {
+                            color: bgColor
+                        },
+                        imageOptions: {
+                            hideBackgroundDots: true,
+                            imageSize: logoSize,
+                            crossOrigin: "anonymous",
+                            margin: 5
+                        },
+                        cornersSquareOptions: {
+                            type: cornerStyle,
+                            color: fgColor
+                        },
+                        cornersDotOptions: {
+                            type: cornerDotStyle,
+                            color: fgColor
+                        },
+                        qrOptions: {
+                            typeNumber: 0,
+                            mode: 'Byte',
+                            errorCorrectionLevel: 'H'
+                        }
+                    });
+                    
+                    // Clear previous QR code
+                    const qrContainer = document.getElementById("qr-code");
+                    qrContainer.innerHTML = '';
+                    
+                    // Append new QR code
+                    qrCode.append(qrContainer);
+                    
+                    // Force proper sizing and apply animations
+                    setTimeout(() => {
+                        const qrElement = qrContainer.querySelector('canvas');
+                        if (qrElement) {
+                            qrElement.style.width = '310px';
+                            qrElement.style.height = '310px';
+                            qrElement.style.display = 'block';
+                            qrElement.style.border = 'none';
+                            qrElement.style.borderRadius = '8px';
+                        }
+                        
+                        // Trigger animation
+                        const container = document.getElementById('qr-code-container');
+                        container.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            container.style.transform = 'scale(1)';
+                            resolve();
+                        }, 150);
+                    }, 100);
+                    
+                } catch (error) {
+                    console.error('Error updating QR display:', error);
+                    reject(error);
+                }
+            });
+        }
+
+        // File validation function
+        function validateFile(file) {
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            const allowedTypes = [
+                'image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml',
+                'application/pdf', 'text/plain', 'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ];
+            
+            if (file.size > maxSize) {
+                showError('File size too large. Please choose a file smaller than 5MB.');
+                return false;
+            }
+            
+            if (!allowedTypes.includes(file.type)) {
+                showError('File type not supported. Please choose an image, PDF, or text file.');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Enhanced file reader with error handling
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(new Error('Failed to read file'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Enhanced Download QR Code with better error handling
         function downloadQR(format) {
             if (!qrCode) {
                 showError('Please generate a QR code first');
@@ -1647,34 +1858,47 @@
             }
             
             try {
-                if (format === 'png') {
-                    qrCode.download({ name: "qr-code", extension: "png" });
-                } else if (format === 'svg') {
-                    qrCode.download({ name: "qr-code", extension: "svg" });
-                }
-                
-                // Success animation
                 const button = event.target;
                 const originalText = button.textContent;
-                button.textContent = '✅ Downloaded!';
-                button.style.transform = 'scale(0.95)';
                 
+                button.disabled = true;
+                button.textContent = '⏳ Downloading...';
+                
+                if (format === 'png') {
+                    qrCode.download({ name: "qr-code-vinnesia", extension: "png" });
+                } else if (format === 'svg') {
+                    qrCode.download({ name: "qr-code-vinnesia", extension: "svg" });
+                }
+                
+                // Success feedback
                 setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.transform = 'scale(1)';
-                }, 2000);
+                    button.textContent = '✅ Downloaded!';
+                    button.style.transform = 'scale(0.95)';
+                    
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.style.transform = 'scale(1)';
+                        button.disabled = false;
+                    }, 2000);
+                }, 500);
                 
             } catch (error) {
                 console.error('Download error:', error);
-                showError('Failed to download QR code');
+                showError('Failed to download QR code. Please try again.');
+                
+                // Reset button on error
+                if (event && event.target) {
+                    event.target.disabled = false;
+                }
             }
         }
 
-        // Update progress bar
+        // Enhanced progress bar with smoother transitions
         function updateProgressBar(progress = 0) {
             const progressBar = document.getElementById('progressBar');
             if (progressBar) {
-                progressBar.style.width = `${progress}%`;
+                progressBar.style.width = `${Math.min(progress, 100)}%`;
+                
                 if (progress === 0) {
                     setTimeout(() => {
                         progressBar.style.width = '0%';
@@ -1683,217 +1907,137 @@
             }
         }
 
-        // Show error message
-        function showError(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
-            errorDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #ff4444, #cc0000);
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(255, 68, 68, 0.3);
-                z-index: 10000;
-                animation: slideInRight 0.3s ease-out;
-            `;
+        // Enhanced message system with different types
+        function showMessage(message, type = 'info', duration = 4000) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${type}-message`;
+            messageDiv.textContent = message;
             
-            document.body.appendChild(errorDiv);
+            document.body.appendChild(messageDiv);
             
+            // Auto-remove message
             setTimeout(() => {
-                errorDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
-                setTimeout(() => errorDiv.remove(), 300);
-            }, 3000);
+                if (messageDiv.parentNode) {
+                    messageDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                    setTimeout(() => {
+                        if (messageDiv.parentNode) {
+                            messageDiv.remove();
+                        }
+                    }, 300);
+                }
+            }, duration);
+            
+            return messageDiv;
         }
 
-        // Handle file input for better UX
+        function showError(message) {
+            return showMessage(message, 'error', 5000);
+        }
+
+        function showSuccess(message) {
+            return showMessage(message, 'success', 3000);
+        }
+
+        function showInfo(message) {
+            return showMessage(message, 'info', 3000);
+        }
+
+        // Enhanced file input handling with validation
         document.getElementById('file-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                const maxSize = 5 * 1024 * 1024; // 5MB
-                if (file.size > maxSize) {
-                    showError('File size too large. Please choose a file smaller than 5MB.');
+                if (!validateFile(file)) {
+                    e.target.value = '';
+                    pendingFileData = null;
+                    return;
+                }
+                
+                // Clear cached data and trigger generation
+                pendingFileData = null;
+                showInfo(`File selected: ${file.name}`);
+                debounceGenerate(100); // Quick generation for file changes
+            } else {
+                pendingFileData = null;
+            }
+        });
+
+        // Enhanced logo upload handling with comprehensive validation
+        document.getElementById('logo-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file type for logos
+                const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml'];
+                if (!validTypes.includes(file.type)) {
+                    showError('Please upload a valid image file for logo (PNG, JPG, or SVG).');
                     e.target.value = '';
                     return;
                 }
                 
-                // Auto-generate when file is selected
-                debounceGenerate();
+                // Validate file size (2MB max for logos)
+                const maxSize = 2 * 1024 * 1024;
+                if (file.size > maxSize) {
+                    showError('Logo file size too large. Please choose an image smaller than 2MB.');
+                    e.target.value = '';
+                    return;
+                }
+                
+                // Show success message
+                showSuccess(`Logo uploaded: ${file.name}`);
+                
+                // Auto-generate QR code with new logo
+                debounceGenerate(200);
             }
         });
 
-        // Keyboard navigation support
+        // Keyboard shortcuts for better UX
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && e.ctrlKey) {
+                e.preventDefault();
                 generateQRCode();
             }
-        });
-
-        // Add CSS animations for error messages
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideInRight {
-                from {
-                    opacity: 0;
-                    transform: translateX(100%);
+            
+            if (e.key === 'Escape') {
+                // Clear any active file selections
+                const fileInput = document.getElementById('file-input');
+                const logoInput = document.getElementById('logo-upload');
+                
+                if (fileInput.value) {
+                    fileInput.value = '';
+                    pendingFileData = null;
+                    debounceGenerate(100);
                 }
-                to {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-            }
-            
-            @keyframes slideOutRight {
-                from {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateX(100%);
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Update QR code with logo support
-        function updateQRWithLogo(qrData, fgColor, bgColor, dotStyle, cornerStyle, cornerDotStyle, logoDataUrl, logoSize) {
-            qrCode.update({
-                width: 310,
-                height: 310,
-                data: qrData,
-                type: "canvas",
-                image: logoDataUrl,
-                dotsOptions: {
-                    color: fgColor,
-                    type: dotStyle
-                },
-                backgroundOptions: {
-                    color: bgColor
-                },
-                imageOptions: {
-                    hideBackgroundDots: true,
-                    imageSize: logoSize,
-                    crossOrigin: "anonymous",
-                    margin: 5
-                },
-                cornersSquareOptions: {
-                    type: cornerStyle,
-                    color: fgColor
-                },
-                cornersDotOptions: {
-                    type: cornerDotStyle,
-                    color: fgColor
-                },
-                qrOptions: {
-                    typeNumber: 0,
-                    mode: 'Byte',
-                    errorCorrectionLevel: 'H'
-                }
-            });
-            
-            updateProgressBar(90);
-            
-            // Clear previous QR code
-            const qrContainer = document.getElementById("qr-code");
-            qrContainer.innerHTML = '';
-            
-            // Append new QR code
-            qrCode.append(qrContainer);
-            
-            // Force proper sizing
-            setTimeout(() => {
-                const qrElement = qrContainer.querySelector('canvas');
-                if (qrElement) {
-                    qrElement.style.width = '310px';
-                    qrElement.style.height = '310px';
-                    qrElement.style.display = 'block';
-                    qrElement.style.border = 'none';
-                    qrElement.style.borderRadius = '8px';
-                }
-            }, 100);
-            
-            updateProgressBar(100);
-            
-            // Trigger animation
-            const container = document.getElementById('qr-code-container');
-            container.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                container.style.transform = 'scale(1)';
-            }, 100);
-        }
-
-        // Handle logo upload with validation
-        document.addEventListener('DOMContentLoaded', function() {
-            const logoUpload = document.getElementById('logo-upload');
-            if (logoUpload) {
-                logoUpload.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        // Validate file type
-                        const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml'];
-                        if (!validTypes.includes(file.type)) {
-                            showError('Please upload a valid image file (PNG, JPG, or SVG).');
-                            e.target.value = '';
-                            return;
-                        }
-                        
-                        // Validate file size (2MB max)
-                        const maxSize = 2 * 1024 * 1024;
-                        if (file.size > maxSize) {
-                            showError('Image size too large. Please choose an image smaller than 2MB.');
-                            e.target.value = '';
-                            return;
-                        }
-                        
-                        // Show file name with success indicator
-                        const fileName = file.name;
-                        const fileInfo = document.createElement('div');
-                        fileInfo.innerHTML = `✅ Logo uploaded: <strong>${fileName}</strong>`;
-                        fileInfo.style.cssText = `
-                            color: var(--neon-cyan);
-                            font-size: 0.9rem;
-                            margin-top: 0.5rem;
-                            padding: 0.75rem;
-                            background: rgba(0, 245, 255, 0.1);
-                            border-radius: 8px;
-                            border: 1px solid rgba(0, 245, 255, 0.3);
-                            animation: fadeInUp 0.3s ease;
-                        `;
-                        
-                        // Remove previous file info
-                        const previousInfo = e.target.parentNode.querySelector('div[style*="color: var(--neon-cyan)"]');
-                        if (previousInfo) previousInfo.remove();
-                        
-                        e.target.parentNode.appendChild(fileInfo);
-                        
-                        // Auto-generate QR code with new logo
-                        debounceGenerate();
-                    }
-                });
             }
         });
 
-        // Performance monitoring
+        // Performance monitoring and optimization
         if ('performance' in window) {
             window.addEventListener('load', function() {
                 setTimeout(() => {
                     const perfData = performance.getEntriesByType('navigation')[0];
-                    console.log('Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart + 'ms');
-                }, 0);
+                    if (perfData) {
+                        const loadTime = perfData.loadEventEnd - perfData.loadEventStart;
+                        console.log(`Page Load Time: ${loadTime}ms`);
+                        
+                        // Show warning if load time is too high
+                        if (loadTime > 3000) {
+                            console.warn('Slow page load detected. Consider optimizing assets.');
+                        }
+                    }
+                }, 100);
             });
         }
 
-        // Service Worker registration for better performance (optional)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                // Service worker could be implemented for caching static assets
-                // navigator.serviceWorker.register('/sw.js');
-            });
-        }
+        // Enhanced error boundary for JavaScript errors
+        window.addEventListener('error', function(e) {
+            console.error('Global error caught:', e.error);
+            showError('An unexpected error occurred. Please refresh the page and try again.');
+        });
+
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+            showError('An error occurred while processing your request. Please try again.');
+        });
     </script>
 </body>
 </html>
